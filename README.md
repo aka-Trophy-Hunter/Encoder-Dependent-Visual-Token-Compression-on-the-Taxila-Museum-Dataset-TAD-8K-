@@ -15,7 +15,7 @@
 - Compression is **not free**: at 50% retention, ECTS is **~3x slower** than the full-token baseline in real latency (sequential greedy selection overhead).
 - A representation-drift diagnostic explains *why* it fails: DINOv2 and SigLIP embeddings drift far more, and far less consistently, once tokens are removed.
 
-![ECTS vs. random token removal across retention levels, and the encoder-dependent gap](figure_headline.png)
+![ECTS vs. random token removal across retention levels, and the encoder-dependent gap](figure_headline(1).png)
 
 *Left: accuracy vs. token retention (solid = ECTS, dashed = random removal). Right: ECTS minus random accuracy in percentage points. ViT matches or beats random, while DINOv2 and SigLIP fall well below it.*
 
