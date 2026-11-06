@@ -6,8 +6,6 @@
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.x-ee4c2c)
 ![Status](https://img.shields.io/badge/paper-in%20preparation-orange)
-![License](https://img.shields.io/badge/license-MIT-green)
-
 ---
 
 ## TL;DR
@@ -17,7 +15,7 @@
 - Compression is **not free**: at 50% retention, ECTS is **~3x slower** than the full-token baseline in real latency (sequential greedy selection overhead).
 - A representation-drift diagnostic explains *why* it fails: DINOv2 and SigLIP embeddings drift far more, and far less consistently, once tokens are removed.
 
-![ECTS vs. random token removal across retention levels, and the encoder-dependent gap](figures/figure_headline.png)
+![ECTS vs. random token removal across retention levels, and the encoder-dependent gap](figure_headline.png)
 
 *Left: accuracy vs. token retention (solid = ECTS, dashed = random removal). Right: ECTS minus random accuracy in percentage points. ViT matches or beats random, while DINOv2 and SigLIP fall well below it.*
 
@@ -50,8 +48,8 @@ Instead of only recognizing artifacts, this repo asks a research question: **how
 4. Artifact-level splits **before** any augmentation, so the same underlying photo never appears in both train and test.
 5. Augmentation applied to the **training set only**.
 
-> **Data availability:** `TODO: state here whether the images are public, available on request, or not released. If not released, link the split files and describe how to request access.`
-
+> [!NOTE]
+> **Dataset availability:** The images were collected and curated independently through on-site visits, where I photographed the Taxila Museum collection myself. This included selecting, cleaning and annotating/labelling etc the images. As no suitable public dataset was available, the dataset is not publicly released, but access can be requested by emailing abrarmoneeba@gmail.com.
 ---
 
 ## Method: ECTS (Early-Contextual Token Selection)
@@ -65,8 +63,6 @@ Input: patch tokens T, retention ratio r
 3. Keep the top r * |T| tokens and continue the forward pass
 ```
 
-> `TODO: replace this sketch with your final algorithm pseudocode from the paper (scoring function, diversity term, complexity).`
-
 **Controls tried and rejected (kept as motivating evidence):**
 - **Top-K magnitude selection**: worse than random at every retention level for all three encoders.
 - **ECRAS** (magnitude + cosine-diversity redundancy scoring): also far worse than random (e.g., DINOv2 at 25% retention: 35.71% vs. 94.03% random).
@@ -75,7 +71,7 @@ Input: patch tokens T, retention ratio r
 
 ## Results
 
-![Accuracy, Macro-F1, and ECTS performance drop vs. token retention](figures/figure_combined_retention.png)
+![Accuracy, Macro-F1, and ECTS performance drop vs. token retention](figure_combined_retention.png)
 
 *Figure 1: Accuracy vs. token retention (baseline / random / ECTS). Figure 2: Macro-F1 vs. token retention. Figure 3: ECTS accuracy drop from the full-token baseline as token reduction increases.*
 
@@ -118,15 +114,13 @@ ECTS is **~3x slower** than the full-token baseline at 50% retention for all thr
 - **DINOv2:** selections look spatially similar to ViT's, despite much worse accuracy.
 - **SigLIP:** selections are visibly less contiguous.
 
-![Qualitative token selection: random 50% vs. ECTS 50% for ViT, DINOv2, and SigLIP](figures/figure_qualitative_tokens.png)
+![Qualitative token selection: random 50% vs. ECTS 50% for ViT, DINOv2, and SigLIP](figure_qualitative_tokens.png)
 
 *Kept tokens (bright, outlined) vs. dropped tokens (darkened) at 50% retention. ViT and SigLIP keep 98 of 196 tokens, DINOv2 keeps 128 of 256.*
 
 ---
 
 ## Repository structure
-
-> `TODO: adjust to match your actual layout.`
 
 ```
 .
@@ -196,15 +190,13 @@ python src/drift.py --encoder dinov2 --num-images 300
 
 - Single dataset (40-class museum artifact recognition), so conclusions may not transfer to other domains or to full vision-language models.
 - Latency was measured on one consumer GPU at batch size 1.
-- `TODO: add any further limitations from the final paper.`
-
 ---
 
 ## Future work
 
 - Test encoder-aware compression inside full VLMs.
 - Reduce ECTS selection overhead (parallel or approximate selection).
-- Study efficient token compression for onboard processing in UAV-based vision tasks.
+- Study efficient token compression for onboard processings.
 
 ---
 
@@ -225,14 +217,8 @@ The paper is in preparation. A preprint link will be added here.
 
 ## Acknowledgements
 
-- Supervisor: Dr. Mudassar Ali Khan, University of Haripur
 - Base work: Khan et al., 2021 (Taxila Museum AR / deep learning)
-- `TODO: add any collaborators or compute support you want to acknowledge.`
-
-## License
-
-Released under the MIT License. See [LICENSE](LICENSE). `TODO: confirm license, and note that dataset images may have separate terms.`
 
 ## Contact
 
-**Moneeba Abrar** · GitHub: [@aka-Trophy-Hunter](https://github.com/aka-Trophy-Hunter) · `TODO: add email / LinkedIn`
+**Moneeba Abrar** · GitHub: [@aka-Trophy-Hunter](https://github.com/aka-Trophy-Hunter) · Email: abrarmoneeba@gmail.com
